@@ -7,10 +7,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - id: files
         uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'test.ts'
+      - run: |
+          echo ${{ steps.files.outputs.all }}
+          echo ${{ steps.files.outputs.added_modified }}
+          echo ${{ steps.files.outputs.removed }}
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
