@@ -1,22 +1,23 @@
-name: Cypress tests
+name: Pull request test
 on: [pull_request]
 jobs:
   cypress-run:
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
     name: Cypress run
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - id: files
+      - name: jq 
+        uses: r26d/jq-action@master
+      - name: Collect files
         uses: jitterbit/get-changed-files@v1
-      - run: |
-          echo ${{ steps.files.outputs.all }}
-          echo ${{ steps.files.outputs.added_modified }}
-          echo ${{ steps.files.outputs.removed }}
+      - name: strip files 
+        run: echo "FILES=$(echo ${{ steps.files.outputs.all }} | jq . | grep test.ts)" >> $GITHUB_ENV
+      - name: file tests
+        run: echo $FILES
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          spec: |
-            ${{ steps.files.outputs.removed }}
+          spec: $FILES
