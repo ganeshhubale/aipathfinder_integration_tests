@@ -15,8 +15,8 @@ jobs:
             curl https://api.github.com/repos/ganeshhubale/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files | jq  '.[].filename'
             curl https://api.github.com/repos/ganeshhubale/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files
 
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   with:
-      #     spec: |
-      #       curl ${{env.GITHUB_API_URL}}}/repos/${{env.GITHUB_ACTOR}}/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          spec: |
+            curl ${{env.GITHUB_API_URL}}}/repos/${{env.GITHUB_ACTOR}}/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files
