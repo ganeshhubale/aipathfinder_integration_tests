@@ -17,7 +17,7 @@ jobs:
       - name: file tests
         run: echo $FILES
 
-      - name: Cypress run
+      - name: Cypress run test
         uses: cypress-io/github-action@v2
         with:
           spec: $FILES
