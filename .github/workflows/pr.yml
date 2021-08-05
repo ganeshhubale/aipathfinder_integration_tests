@@ -1,0 +1,22 @@
+name: Cypress tests
+on: [pull_request]
+jobs:
+  cypress-run:
+    name: Cypress run
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: r26d/jq-action@master
+        with:
+          cmd: |
+            echo ${{ github.event.number }}
+            curl https://api.github.com/repos/ganeshhubale/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files | jq  '.[].filename' | grep 'test.ts'
+            curl https://api.github.com/repos/ganeshhubale/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files | jq  '.[].filename'
+            curl https://api.github.com/repos/ganeshhubale/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          spec: |
+            curl ${{env.GITHUB_API_URL}}}/repos/${{env.GITHUB_ACTOR}}/aipathfinder_integration_tests/pulls/${{ github.event.number }}/files
