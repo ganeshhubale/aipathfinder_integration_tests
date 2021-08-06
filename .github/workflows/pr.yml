@@ -21,4 +21,4 @@ jobs:
       - name: kashis
         run: export fileme=[".github/workflows/pr.yml","cypress/integration/tests/x.test.ts","cypress/integration/tests/y.test.ts"]
       - name: pyto  
-        run: x=`python -c 'import os; print(",".join([i for i in $fileme if ".test.ts" in i]))'`
+        run: x=`python -c 'import os; print(",".join([i for i in os.environ["fileme"] if ".test.ts" in i]))'`
