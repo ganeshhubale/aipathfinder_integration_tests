@@ -17,7 +17,11 @@ jobs:
       - name: Cypress run test
         uses: actions/setup-python@v2
       - name: kashis
-        run:  echo 'action_state="${{ steps.file_changes.outputs.files }}"' >> $GITHUB_ENV
+        run: |
+        URL="https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files"
+        FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+        echo $FILES 
+        echo 'action_state="$FILES"' >> $GITHUB_ENV
       - name: pyto  
         run: |
           npx cypress run --spec `python -c 'import os; print(",".join([i for i in ${{env.action_state}} if ".test.ts" in i]))'`
