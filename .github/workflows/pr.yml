@@ -8,11 +8,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install npm dependencies
+      - name: Install npm dependenicies
         run: npm install .
       # - name: jq 
       #   uses: r26d/jq-action@master
       - name: Collect files
         uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
       - name: Cypress run test
         run: npx cypress run ${{ steps.files.outputs.all }}
