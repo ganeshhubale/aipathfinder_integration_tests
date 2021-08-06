@@ -17,6 +17,4 @@ jobs:
         with:
           format: 'json'
       - name: Cypress run test
-        run: |
-        test_files=`python -c 'import os; print(",".join([i for i in ${{steps.files.outputs.all}} if ".test.ts" in i]))'`
-        echo $test_files
+        run: `python -c 'import os; print(",".join([i for i in ${{steps.files.outputs.all}} if ".test.ts" in i]))'`
