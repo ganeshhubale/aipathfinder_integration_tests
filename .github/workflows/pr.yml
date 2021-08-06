@@ -9,10 +9,9 @@ jobs:
         # Checkout to pull request branch
       - name: Checkout
         uses: actions/checkout@v2
-        # Install NPM dependencies, cache them correctly
-        # and run Cypress tests
-      - name: Setup Cypress
-        uses: cypress-io/github-action@v2
+        # Install NPM dependencies
+      - name: Install NPM
+        run: npm install .
         # Get all the files added to pull request
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
