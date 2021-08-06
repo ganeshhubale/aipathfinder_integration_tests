@@ -17,7 +17,7 @@ jobs:
       - name: Cypress run test
         uses: actions/setup-python@v2
       - name: kashis
-        run: echo 'action_state="$HOME/files.json"' >> $GITHUB_ENV
+        run: echo 'action_state=$HOME/files.json' >> $GITHUB_ENV
       
       - name: pyto  
         run: |
