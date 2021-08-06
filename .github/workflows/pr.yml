@@ -6,17 +6,20 @@ jobs:
     name: Cypress run
     runs-on: ubuntu-latest
     steps:
+        # Checkout to pull request branch
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Install npm dependenicies
-      #   run: npm install .
-
+        # Install NPM dependencies, cache them correctly
+        # and run Cypress tests
+      - name: Setup Cypress
+        uses: cypress-io/github-action@v2
+        # Get all the files added to pull request
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
-
+        # Create event to generate ouput of comma separated test files only
       - id: event
         run: |
           test_files=`python -c 'print(",".join([i for i in ${{steps.file_changes.outputs.files_added}} if ".test.ts" in i]))'`
           echo "::set-output name=tests::$test_files"
-      - name: output
-        run: ${{ steps.event.outputs.tests }}
+      - name: Run cypress test cases
+        run: npx cypress run --spec ${{ steps.event.outputs.tests }}
