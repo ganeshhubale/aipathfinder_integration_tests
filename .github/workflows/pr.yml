@@ -17,4 +17,5 @@ jobs:
         with:
           format: 'json'
       - name: Cypress run test
+        uses: actions/setup-python@v2
         run: `python -c 'import os; print(",".join([i for i in ${{steps.files.outputs.all}} if ".test.ts" in i]))'`
