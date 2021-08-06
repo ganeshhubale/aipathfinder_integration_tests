@@ -12,8 +12,14 @@ jobs:
         uses: r26d/jq-action@master
       - name: Collect files
         uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
+      - name: Files
+        env:
+          TEST_FILES: ${{ steps.files.outputs.all }}
+        run: echo "$TEST_FILES"
       - name: strip files 
-        run: echo `FILES=$(echo {{ steps.files.outputs.all }} | jq . | grep test.ts)` >> $GITHUB_ENV
+        run: export FILES=($TEST_FILES | jq . | grep test.ts)
       - name: file tests
         run: echo $FILES
 
