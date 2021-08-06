@@ -15,11 +15,10 @@ jobs:
         with:
           format: 'json'
       - run: |
-          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-          export TEST_FILES=${removed_files[@]}
-          echo "$TEST_FILES"
-          export FILES=$TEST_FILES | grep test.ts
-          echo $FILES
+            readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.removed }}')"
+            for removed_file in ${removed_files[@]}; do
+            echo "Do something with this ${removed_file}."
+            done
 
       - name: Cypress run test
         uses: cypress-io/github-action@v2
