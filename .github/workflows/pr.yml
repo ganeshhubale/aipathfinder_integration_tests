@@ -8,16 +8,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install npm dependenicies
-        run: npm install .
-      - name: jq 
-        uses: r26d/jq-action@master
+      # - name: Install npm dependenicies
+      #   run: npm install .
+      # - name: jq 
+      #   uses: r26d/jq-action@master
       - name: Collect files
         uses: trilom/file-changes-action@v1.2.3
       - name: Cypress run test
         uses: actions/setup-python@v2
       - name: kashis
-        run: echo '${{ steps.file_changes.outputs.files}}' 
+        run: |
+          cat $HOME/files.json
+          cat $HOME/files_modified.json
+          cat $HOME/files_added.json
+          cat $HOME/files_removed.json
+          echo '${{ steps.file_changes.outputs.files}}'
+          echo '${{ steps.file_changes.outputs.files_modified}}'
+          echo '${{ steps.file_changes.outputs.files_added}}'
+          echo '${{ steps.file_changes.outputs.files_removed}}' 
         
       # - name: pyto  
       #   run: |
