@@ -17,4 +17,6 @@ jobs:
         with:
           format: 'json'
       - name: Cypress run test
-        run: npx cypress run ${{ steps.files.outputs.all }}
+        run: |
+        test_files=`python -c 'import os; print(",".join([i for i in ${{steps.files.outputs.all}} if ".test.ts" in i]))'`
+        npx cypress run $test_files
