@@ -14,12 +14,13 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'json'
+      - run: |
+          readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          export TEST_FILES=${removed_files[@]}
       - name: Files
-        env:
-          TEST_FILES: ${{ steps.files.outputs.all }}
-        run: echo "$TEST_FILES"
+      - run: echo "$TEST_FILES"
       - name: strip files 
-        run: export FILES=($TEST_FILES | jq . | grep test.ts)
+      - run: export FILES=$TEST_FILES | grep test.ts
       - name: file tests
         run: echo $FILES
 
