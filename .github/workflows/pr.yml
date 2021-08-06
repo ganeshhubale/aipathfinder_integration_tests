@@ -13,13 +13,11 @@ jobs:
       # - name: jq 
       #   uses: r26d/jq-action@master
       - name: Collect files
-        uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'json'
+        uses: trilom/file-changes-action@v1.2.3
       - name: Cypress run test
         uses: actions/setup-python@v2
       - name: kashis
-        run:  echo 'action_state="${{steps.files.outputs.all}}"' >> $GITHUB_ENV
+        run:  echo 'action_state="${{ steps.file_changes.outputs.files }}"' >> $GITHUB_ENV
       - name: pyto  
         run: |
           npx cypress run --spec `python -c 'import os; print(",".join([i for i in ${{env.action_state}} if ".test.ts" in i]))'`
