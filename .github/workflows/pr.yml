@@ -21,9 +21,9 @@ jobs:
         with:
           MY_ENV_VAR: $HOME/files.json
       - name: Printenv
-      run: |
-        echo "MY_ENV_VAR=${MY_ENV_VAR}"
-        printenv
+        run: |
+          echo "MY_ENV_VAR=${MY_ENV_VAR}"
+          printenv
       - name: kashis 
         run: 
           npx cypress run --spec ${MY_ENV_VAR}
