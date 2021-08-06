@@ -22,7 +22,7 @@ jobs:
       - name: strip files 
       - run: export FILES=$TEST_FILES | grep test.ts
       - name: file tests
-        run: echo $FILES
+      - run: echo $FILES
 
       - name: Cypress run test
         uses: cypress-io/github-action@v2
