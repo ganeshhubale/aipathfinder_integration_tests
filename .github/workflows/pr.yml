@@ -18,12 +18,5 @@ jobs:
         uses: actions/setup-python@v2
       - name: set environment variables
         uses: allenevans/set-env@v2.0.0
-        with:
-          MY_ENV_VAR: cat $HOME/files.json
-      - name: Printenv
-        run: |
-          echo "MY_ENV_VAR=${MY_ENV_VAR}"
-          printenv
-      - name: kashis 
-        run: 
-          npx cypress run --spec ${MY_ENV_VAR}
+        run: cat $HOME/files.json
+     
