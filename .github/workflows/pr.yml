@@ -4,20 +4,19 @@ jobs:
   cypress-run:
     if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
     name: Cypress run
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       # - name: Install npm dependenicies
       #   run: npm install .
-      # - name: jq 
-      #   uses: r26d/jq-action@master
-      - name: Collect files
+
+      - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
-      - name: Cypress run test
-        uses: actions/setup-python@v2
-      - name: set environment variables
-        uses: allenevans/set-env@v2.0.0
-      - name: files
-        run: cat $HOME/files.json
-     
+
+      - id: event
+        run: |
+          test_files=`python -c 'print(",".join([i for i in ${{steps.file_changes.outputs.files_added}} if ".test.ts" in i]))'`
+          echo "::set-output name=tests::$test_files"
+      - name: output
+        run: ${{ steps.event.outputs.tests }}
