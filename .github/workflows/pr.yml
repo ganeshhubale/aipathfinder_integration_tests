@@ -16,5 +16,4 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           spec: |
-            cypress/integration/tests/x.test.ts
-            cypress/integration/tests/y.test.ts
+            cypress/integration/tests/x.test.ts, cypress/integration/tests/y.test.ts
