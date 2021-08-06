@@ -17,12 +17,9 @@ jobs:
       - run: |
           readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           export TEST_FILES=${removed_files[@]}
-      - name: Files
-      - run: echo "$TEST_FILES"
-      - name: strip files 
-      - run: export FILES=$TEST_FILES | grep test.ts
-      - name: file tests
-      - run: echo $FILES
+          echo "$TEST_FILES"
+          export FILES=$TEST_FILES | grep test.ts
+          echo $FILES
 
       - name: Cypress run test
         uses: cypress-io/github-action@v2
