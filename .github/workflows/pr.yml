@@ -16,8 +16,14 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
       - name: Cypress run test
         uses: actions/setup-python@v2
-      - name: kashis
-        run: x=$HOME/files.json
-      - name: pyto  
-        run: |
-          npx cypress run --spec `python -c 'import os; print(",".join([i for i in $x if ".test.ts" in i]))'`
+      - name: set environment variables
+        uses: allenevans/set-env@v2.0.0
+        with:
+          MY_ENV_VAR: $HOME/files.json
+      - name: Printenv
+      run: |
+        echo "MY_ENV_VAR=${MY_ENV_VAR}"
+        printenv
+      - name: kashis 
+        run: 
+          npx cypress run --spec ${MY_ENV_VAR}
