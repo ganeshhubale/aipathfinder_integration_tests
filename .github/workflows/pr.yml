@@ -1,8 +1,8 @@
 name: Pull request test
-on: [pull_request]
+on: [pull_request, push]
 jobs:
   cypress-run:
-    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
+    # if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
     name: Cypress run
     runs-on: ubuntu-20.04
     steps:
@@ -12,12 +12,19 @@ jobs:
       #   run: npm install .
       # - name: jq 
       #   uses: r26d/jq-action@master
-      - name: Collect files
+      - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
-      - name: Cypress run test
-        uses: actions/setup-python@v2
-      - name: set environment variables
-        uses: allenevans/set-env@v2.0.0
-      - name: files
-        run: cat $HOME/files.json
+
+      - name: test
+        run: |
+          echo '${{ steps.file_changes.outputs.files}}'
+          python -c 'print(",".join([i for i in ${{steps.file_changes.outputs.files}} if ".test.ts" in i]))'
+
+
+      # - name: Cypress run test
+      #   uses: actions/setup-python@v2
+      # - name: set environment variables
+      #   uses: allenevans/set-env@v2.0.0
+      # - name: files
+      #   run: cat $HOME/files.json
      
