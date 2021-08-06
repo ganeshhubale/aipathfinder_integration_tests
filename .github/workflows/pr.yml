@@ -17,9 +17,7 @@ jobs:
       - name: Cypress run test
         uses: actions/setup-python@v2
       - name: kashis
-        run: |
-        export x=$HOME/files.json
-        cat $x
+        run: x=$HOME/files.json
       - name: pyto  
         run: |
-          npx cypress run --spec `python -c 'import os; print(",".join([i for i in ${{env.action_state}} if ".test.ts" in i]))'`
+          npx cypress run --spec `python -c 'import os; print(",".join([i for i in $x if ".test.ts" in i]))'`
