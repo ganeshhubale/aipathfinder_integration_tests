@@ -2,7 +2,7 @@ name: Pull request test
 on: [pull_request]
 jobs:
   cypress-run:
-    # if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'RFR')
     name: Cypress run
     runs-on: ubuntu-20.04
     steps:
@@ -12,15 +12,8 @@ jobs:
         uses: r26d/jq-action@master
       - name: Collect files
         uses: jitterbit/get-changed-files@v1
-        with:
-          format: 'json'
-      - run: |
-            readarray -t removed_files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-            for removed_file in ${removed_files[@]}; do
-            echo "Do something with this ${removed_file}."
-            done
-
       - name: Cypress run test
         uses: cypress-io/github-action@v2
         with:
-          spec: $FILES
+          spec: |
+            ${{ steps.files.outputs.all }
